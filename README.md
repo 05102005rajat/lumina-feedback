@@ -2,7 +2,7 @@
 
 An editorial-minimal dashboard for browsing customer feedback.
 
-> **Live demo:** _(deploy to Vercel/Netlify/Cloudflare to populate this link)_
+> **Live demo:** <https://lumina-feedback.vercel.app>
 
 ## Setup
 
