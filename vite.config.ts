@@ -10,6 +10,7 @@ export default defineConfig({
     tsConfigPaths({ projects: ["./tsconfig.json"] }),
     tanstackStart({
       server: { entry: "server" },
+      spa: { enabled: true },
     }),
     viteReact(),
   ],
