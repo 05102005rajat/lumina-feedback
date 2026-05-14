@@ -100,7 +100,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
         <HeadContent />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=localStorage.getItem('lumina-theme');var m=window.matchMedia('(prefers-color-scheme: dark)').matches;var d=s?s==='dark':m;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`,
+            __html: `(function(){try{var s=localStorage.getItem('lumina-theme');if(s==='dark')document.documentElement.classList.add('dark');}catch(e){}})();`,
           }}
         />
       </head>
