@@ -157,7 +157,7 @@ function LuminaPage() {
     } catch {}
   };
 
-  const clearAll = () => { setQ(""); setSent("All"); };
+  const clearAll = () => { setQ(""); setSent("All"); setSort("Newest"); };
 
   return (
     <div className="relative min-h-screen">
@@ -294,7 +294,7 @@ function LuminaPage() {
           </div>
           {(q.trim() || sent !== "All" || sort !== "Newest") && (
             <button
-              onClick={() => { setQ(""); setSent("All"); setSort("Newest"); }}
+              onClick={clearAll}
               className="text-foreground/80 hover:text-foreground underline-offset-4 hover:underline transition-colors"
             >
               Clear all
