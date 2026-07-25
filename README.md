@@ -1,8 +1,16 @@
 # Lumina Feedback
 
-An editorial-minimal dashboard for browsing customer feedback.
+An editorial-minimal customer feedback dashboard built on Vite + TanStack Start + TypeScript + Tailwind CSS v4, with hand-built card, segmented-control, and chip components layered on shadcn/ui + Radix primitives (`Dialog`, `DropdownMenu`).
 
 > **Live demo:** <https://lumina-feedback.vercel.app>
+
+## Highlights
+
+- **Shipped and diagnosed real production bugs post-deploy**, not just written to spec: a Tailwind v4 CSS-optimizer bug that silently stripped the Google Fonts `@import` from the production build (every visitor silently fell back to system fonts, no console error); a missing SPA rewrite that let Vercel's edge 404 pre-empt the client-side router before the app's own `NotFoundComponent` ever ran; and a state-divergence bug where the empty-state "Clear filters" button and the results-bar "Clear all" button reset different slices of state (one reset sort, the other didn't).
+- **Accessible by construction, not bolted on**: sentiment filter is a real `role="tablist"` with `aria-selected`, the search input and theme toggle carry explicit `aria-label`s, and decorative elements (noise overlay, separators, sentiment dots) are `aria-hidden`.
+- **No FOUC / no flash-of-wrong-theme**: theme is read from `localStorage` and applied to `<html>` via an inline script injected in `__root.tsx` before React hydrates, so there's no light→dark flicker on load — a problem a naive `useEffect`-only implementation would have.
+- **Fully keyboard-operable**: `/` / `⌘K` focus search, `1`–`4` switch sentiment filter, `T` toggles theme, `Esc` closes the modal or clears search — all wired through a single root-level `keydown` listener, no per-component key handling.
+- Deployed as a prerendered static SPA (Vite + TanStack Start's `spa: { enabled: true }` mode) served from Vercel with a catch-all rewrite, rather than paying for a Node SSR runtime it doesn't need.
 
 ## Setup
 
@@ -24,15 +32,16 @@ Then visit the printed local URL (usually <http://localhost:8080>).
 npm run build
 ```
 
-The static build output drops cleanly into Vercel or Netlify (zero config — both auto-detect TanStack Start).
+This runs `vite build` in TanStack Start's `spa: { enabled: true }` mode, then copies the prerendered `_shell.html` to `index.html` so the output is a plain static SPA. `vercel.json` sets `framework: null` with an explicit `buildCommand`, `outputDirectory: dist/client`, and a catch-all rewrite to `index.html` — deploy is one `vercel deploy` away, but it's deliberate static-SPA config, not Vercel auto-detecting TanStack Start.
 
 ## Tech
 
-- **Vite + TanStack Start** — modern SSR-ready React with file-based routing
-- **TypeScript** end-to-end
-- **Tailwind CSS** (v4, the new CSS-first config)
-- **shadcn/ui** for `Dialog`, `DropdownMenu`, and primitives only — cards, segmented controls, and chips are custom
+- **Vite 7 + TanStack Start** (`@tanstack/react-router` + `@tanstack/react-start`) — file-based routing, built here in prerendered SPA mode rather than Node SSR
+- **React 19** + **TypeScript** end-to-end
+- **Tailwind CSS v4** — the new CSS-first `@source`/`@import`-based config, no `tailwind.config.js`
+- **shadcn/ui on Radix primitives** (`@radix-ui/react-dialog`, `@radix-ui/react-dropdown-menu`) for `Dialog` and `DropdownMenu` only — cards, the segmented sentiment control, and chips are hand-built, not pulled from a library
 - **lucide-react** icons
+- Tooling: ESLint 9 flat config + `typescript-eslint`, Prettier, deployed to **Vercel** with a `vercel.json` SPA rewrite
 
 ## Features
 
