@@ -24,7 +24,7 @@ Then visit the printed local URL (usually <http://localhost:8080>).
 npm run build
 ```
 
-The project is preconfigured for Cloudflare Workers via `wrangler.jsonc`, but the static build output also drops cleanly into Vercel or Netlify (zero config — both auto-detect TanStack Start).
+The static build output drops cleanly into Vercel or Netlify (zero config — both auto-detect TanStack Start).
 
 ## Tech
 
